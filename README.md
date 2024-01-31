@@ -18,6 +18,6 @@ Se uma empresa existe, é porque ela tem um core business e, normalmente, esse c
 
 Resumindo, sempre que se falar em domínio, estaremos falando da razão daquele software existir. Sem aquele ponto principal, não há razão para o desenvolvimento do software.
 
-[Fonte: FullCicle](https://fullcycle.com.br/domain-driven-design/)
+[Ler artigo completo](https://fullcycle.com.br/domain-driven-design/)
 
 ![image](https://github.com/365rafael/API_DDD/assets/97065934/8feb412f-8f64-471a-ac2b-0a50abd1011d)
