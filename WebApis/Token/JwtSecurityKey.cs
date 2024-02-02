@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace WebApis.Token
+namespace WebAPIs.Token
 {
     public class JwtSecurityKey
     {

@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
-using WebApis.Models;
-using WebApis.Token;
+using WebAPIs.Models;
+using WebAPIs.Token;
 
-namespace WebApis.Controllers
+namespace WebAPIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -44,24 +44,16 @@ namespace WebApis.Controllers
                 var userCurrent = await _userManager.FindByEmailAsync(login.email);
                 var idUsuario = userCurrent.Id;
 
-                try
-                {
-                    var token = new TokenJWTBuilder()
-                        .AddSecurityKey(JwtSecurityKey.Create("Secret_Key-12345678".PadRight(32))) // PadRight para garantir que a chave tenha pelo menos 256 bits (32 bytes)
-                        .AddSubject("Empresa - Canal Dev Net Core")
-                        .AddIssuer("Teste.Securiry.Bearer")
-                        .AddAudience("Teste.Securiry.Bearer")
-                        .AddClaim("idUsuario", idUsuario)
-                        .AddExpiry(5)
-                        .Builder();
+                var token = new TokenJWTBuilder()
+                  .AddSecurityKey(JwtSecurityKey.Create("Secret_Key-12345678".PadRight(32)))
+                .AddSubject("Empresa - Canal Dev Net Core")
+                .AddIssuer("Teste.Securiry.Bearer")
+                .AddAudience("Teste.Securiry.Bearer")
+                .AddClaim("idUsuario", idUsuario)
+                .AddExpiry(5)
+                .Builder();
 
-                    return Ok(token.value);
-
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest($"Erro ao gerar token: {ex.Message}");
-                }
+                return Ok(token.value);
             }
             else
             {

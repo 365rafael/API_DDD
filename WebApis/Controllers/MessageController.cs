@@ -2,8 +2,9 @@
 using Domain.Interfaces;
 using Entities.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApis.Models;
+using WebAPIs.Models;
 
 namespace WebAPIs.Controllers
 {

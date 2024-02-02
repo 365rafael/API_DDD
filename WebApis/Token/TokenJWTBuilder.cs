@@ -2,7 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace WebApis.Token
+namespace WebAPIs.Token
 {
     public class TokenJWTBuilder
     {
@@ -96,6 +96,8 @@ namespace WebApis.Token
             return new TokenJWT(token);
 
         }
+
+
 
     }
 }

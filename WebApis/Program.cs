@@ -10,8 +10,9 @@ using Infraestructure.Repository.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using WebApis.Models;
-using WebApis.Token;
+using Microsoft.OpenApi.Models;
+using WebAPIs.Models;
+using WebAPIs.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,20 +25,21 @@ builder.Services.AddSwaggerGen();
 
 // ConfigServices
 builder.Services.AddDbContext<ContextBase>(options =>
-                            options.UseSqlServer(
-                                builder.Configuration.GetConnectionString("DefaultConnection")));
+              options.UseSqlServer(
+                  builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ContextBase>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-// Interface e Repositorio
+// INTERFACE E REPOSITORIO
 builder.Services.AddSingleton(typeof(IGeneric<>), typeof(RepositoryGenerics<>));
 builder.Services.AddSingleton<IMessage, RepositoryMessage>();
 
-// Serviço dominio
+// SERVIÇO DOMINIO
 builder.Services.AddSingleton<IServiceMessage, ServiceMessage>();
+
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -71,7 +73,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
       });
 
 
-// AutoMapper
 var config = new AutoMapper.MapperConfiguration(cfg =>
 {
     cfg.CreateMap<MessageViewModel, Message>();
@@ -81,6 +82,67 @@ var config = new AutoMapper.MapperConfiguration(cfg =>
 IMapper mapper = config.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
+builder.Services.AddSwaggerGen(c =>
+
+{
+
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API_DDD_2022", Version = "v1" });
+
+
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+
+    {
+
+        Description =
+
+            "JWT Authorization Header - utilizado com Bearer Authentication.\r\n\r\n" +
+
+            "Digite 'Bearer' [espaço] e então seu token no campo abaixo.\r\n\r\n" +
+
+            "Exemplo (informar sem as aspas): 'Bearer 12345abcdef'",
+
+        Name = "Authorization",
+
+        In = ParameterLocation.Header,
+
+        Type = SecuritySchemeType.ApiKey,
+
+        Scheme = "Bearer",
+
+        BearerFormat = "JWT",
+
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+
+                {
+
+                    {
+
+                        new OpenApiSecurityScheme
+
+                        {
+
+                            Reference = new OpenApiReference
+
+                            {
+
+                                Type = ReferenceType.SecurityScheme,
+
+                                Id = "Bearer"
+
+                            }
+
+                        },
+
+                        new string[] {}
+
+                    }
+
+                });
+
+});
 
 var app = builder.Build();
 
@@ -103,14 +165,13 @@ app.UseCors(x => x
 .AllowAnyMethod()
 .AllowAnyHeader().WithOrigins(devClient));
 
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.UseSwaggerUI();
 
 app.Run();
