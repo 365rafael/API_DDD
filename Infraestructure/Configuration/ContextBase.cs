@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infraestructure.Configuration
+namespace Infrastructure.Configuration
 {
     public class ContextBase : IdentityDbContext<ApplicationUser>
     {
@@ -17,7 +17,6 @@ namespace Infraestructure.Configuration
 
         public DbSet<Message> Message { get; set; }
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,7 +38,8 @@ namespace Infraestructure.Configuration
 
         public string ObterStringConexao()
         {
-            return "server=DESKTOP-S37K6N0\\SQLEXPRESS;Database=API_DDD;trusted_connection=true;TrustServerCertificate=True;";
+           return "server=DESKTOP-S37K6N0\\SQLEXPRESS;Database=API_DDD;trusted_connection=true;TrustServerCertificate=True;";
         }
+
     }
 }

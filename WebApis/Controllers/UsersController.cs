@@ -45,7 +45,7 @@ namespace WebAPIs.Controllers
                 var idUsuario = userCurrent.Id;
 
                 var token = new TokenJWTBuilder()
-                  .AddSecurityKey(JwtSecurityKey.Create("Secret_Key-12345678".PadRight(32)))
+                        .AddSecurityKey(JwtSecurityKey.Create("Secret_Key-12345678".PadRight(32))) // PadRight para garantir que a chave tenha pelo menos 256 bits (32 bytes)
                 .AddSubject("Empresa - Canal Dev Net Core")
                 .AddIssuer("Teste.Securiry.Bearer")
                 .AddAudience("Teste.Securiry.Bearer")

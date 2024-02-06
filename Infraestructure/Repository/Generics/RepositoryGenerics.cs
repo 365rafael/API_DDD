@@ -1,27 +1,28 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using Domain.Interfaces.Generics;
-using Infraestructure.Configuration;
+﻿using Domain.Interfaces.Generics;
+using Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32.SafeHandles;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace Infraestructure.Repository.Generics
+namespace Infrastructure.Repository.Generics
 {
     public class RepositoryGenerics<T> : IGeneric<T>, IDisposable where T : class
     {
-
-        private readonly DbContextOptions<ContextBase> _optionsBuilder;
+        private readonly DbContextOptions<ContextBase> _OptionsBuilder;
 
         public RepositoryGenerics()
         {
-            _optionsBuilder = new DbContextOptions<ContextBase>();
+            _OptionsBuilder = new DbContextOptions<ContextBase>();
         }
-
 
         public async Task Add(T Objeto)
         {
-            using (var data = new ContextBase(_optionsBuilder))
+            using (var data = new ContextBase(_OptionsBuilder))
             {
                 await data.Set<T>().AddAsync(Objeto);
                 await data.SaveChangesAsync();
@@ -30,7 +31,7 @@ namespace Infraestructure.Repository.Generics
 
         public async Task Delete(T Objeto)
         {
-            using (var data = new ContextBase(_optionsBuilder))
+            using (var data = new ContextBase(_OptionsBuilder))
             {
                 data.Set<T>().Remove(Objeto);
                 await data.SaveChangesAsync();
@@ -39,7 +40,7 @@ namespace Infraestructure.Repository.Generics
 
         public async Task<T> GetEntityById(int Id)
         {
-            using (var data = new ContextBase(_optionsBuilder))
+            using (var data = new ContextBase(_OptionsBuilder))
             {
                 return await data.Set<T>().FindAsync(Id);
             }
@@ -47,7 +48,7 @@ namespace Infraestructure.Repository.Generics
 
         public async Task<List<T>> List()
         {
-            using (var data = new ContextBase(_optionsBuilder))
+            using (var data = new ContextBase(_OptionsBuilder))
             {
                 return await data.Set<T>().ToListAsync();
             }
@@ -55,13 +56,12 @@ namespace Infraestructure.Repository.Generics
 
         public async Task Update(T Objeto)
         {
-            using (var data = new ContextBase(_optionsBuilder))
+            using (var data = new ContextBase(_OptionsBuilder))
             {
                 data.Set<T>().Update(Objeto);
                 await data.SaveChangesAsync();
             }
         }
-
 
         #region Disposed https://docs.microsoft.com/pt-br/dotnet/standard/garbage-collection/implementing-dispose
         // Flag: Has Dispose already been called?
@@ -95,5 +95,7 @@ namespace Infraestructure.Repository.Generics
             disposed = true;
         }
         #endregion
+
+
     }
 }

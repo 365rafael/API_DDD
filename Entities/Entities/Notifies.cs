@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +9,7 @@ namespace Entities.Entities
 {
     public class Notifies
     {
+
         public Notifies()
         {
             Notitycoes = new List<Notifies>();
@@ -17,10 +17,13 @@ namespace Entities.Entities
 
         [NotMapped]
         public string NomePropriedade { get; set; }
+
         [NotMapped]
-        public string Mensagem { get; set; }
+        public string mensagem { get; set; }
+
         [NotMapped]
         public List<Notifies> Notitycoes { get; set; }
+
 
         public bool ValidarPropriedadeString(string valor, string nomePropriedade)
         {
@@ -28,11 +31,14 @@ namespace Entities.Entities
             {
                 Notitycoes.Add(new Notifies
                 {
-                    Mensagem = "Campo obrigatório",
+                    mensagem = "Campo Obrigatório",
                     NomePropriedade = nomePropriedade
                 });
+
                 return false;
+
             }
+
             return true;
         }
 
@@ -42,12 +48,17 @@ namespace Entities.Entities
             {
                 Notitycoes.Add(new Notifies
                 {
-                    Mensagem = "Campo obrigatório",
+                    mensagem = "Campo Obrigatório",
                     NomePropriedade = nomePropriedade
                 });
+
                 return false;
+
             }
+
             return true;
         }
+
+
     }
 }
